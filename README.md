@@ -145,6 +145,10 @@ immediately).
 | *Cursor session expired* | Open Cursor so it renews its token. |
 | *Launch at login* flips back off | Only works when running from `Agent Pulse.app` (not `swift run`). |
 
+## License
+
+[MIT](LICENSE) © 2026 kwn00
+
 ## Acknowledgements
 
 Endpoint and credential details were cross-checked against the MIT-licensed
