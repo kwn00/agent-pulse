@@ -15,7 +15,8 @@ the sessions the official tools already keep on your Mac.
 **Homebrew** (recommended):
 
 ```sh
-brew install --cask --no-quarantine kwn00/tap/agent-pulse
+brew install --cask kwn00/tap/agent-pulse
+xattr -dr com.apple.quarantine "/Applications/Agent Pulse.app"   # ad-hoc signed: clear Gatekeeper quarantine once
 ```
 
 Then launch **Agent Pulse** from `/Applications` (or Spotlight). It lives in the menu bar — there is no
@@ -25,10 +26,10 @@ Dock icon or window. Turn on *Launch at login* in its settings (⌘,) if you wan
 [latest release](https://github.com/kwn00/agent-pulse/releases/latest), unzip, and drag
 `Agent Pulse.app` into `/Applications`.
 
-> **Gatekeeper note.** Agent Pulse is ad-hoc signed, not notarized (no Apple Developer ID), so a
-> quarantined copy is refused on first launch. `--no-quarantine` avoids that for the Homebrew install.
-> For a manual download (or if you forgot the flag) either allow it under **System Settings → Privacy &
-> Security → Open Anyway**, or run `xattr -dr com.apple.quarantine "/Applications/Agent Pulse.app"`.
+> **Gatekeeper note.** Agent Pulse is ad-hoc signed, not notarized (no Apple Developer ID), so macOS
+> refuses a freshly downloaded copy on first launch. Homebrew 7 no longer offers `--no-quarantine`, hence
+> the `xattr` line above — run it once after installing (it also works for the manual download). The
+> alternative is **System Settings → Privacy & Security → Open Anyway** after the first blocked launch.
 
 Requires macOS 14 Sonoma or newer (Apple silicon and Intel).
 
