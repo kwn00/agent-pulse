@@ -1,0 +1,14 @@
+{
+  "userStatus": {
+    "email": "dev@example.com",
+    "userTier": { "id": "ai-pro", "name": "Google AI Pro" },
+    "planStatus": { "planInfo": { "planName": "Pro" } },
+    "cascadeModelConfigData": {
+      "clientModelConfigs": [
+        { "label": "Gemini 3 Pro", "modelOrAlias": { "model": "MODEL_GEMINI_3_PRO" }, "quotaInfo": { "remainingFraction": 0.75, "resetTime": "2026-09-24T01:13:45Z" } },
+        { "label": "Gemini 3 Flash", "modelOrAlias": { "model": "MODEL_GEMINI_3_FLASH" }, "quotaInfo": { "remainingFraction": 0.75, "resetTime": "2026-09-24T01:13:45Z" } },
+        { "label": "Claude Sonnet", "modelOrAlias": { "model": "MODEL_CLAUDE_SONNET" }, "quotaInfo": { "remaining": { "remainingFraction": 0.2 }, "resetTime": "1789970642" } }
+      ]
+    }
+  }
+}

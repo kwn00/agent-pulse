@@ -1,0 +1,50 @@
+name: AgentPulse
+options:
+  bundleIdPrefix: dev.agentpulse
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+  xcodeVersion: "16.0"
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    ENABLE_HARDENED_RUNTIME: YES
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGN_IDENTITY: "-"
+    SWIFT_STRICT_CONCURRENCY: complete
+
+targets:
+  AgentPulse:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources/AgentPulse
+      - path: Support/AppIcon.icns
+        optional: true
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.agentpulse.app
+        PRODUCT_NAME: Agent Pulse
+        INFOPLIST_FILE: Support/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        OTHER_LDFLAGS: "-lsqlite3"
+    scheme:
+      testTargets:
+        - AgentPulseTests
+
+  AgentPulseTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests/AgentPulseTests
+    dependencies:
+      - target: AgentPulse
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.agentpulse.tests

@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & publish
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Toolchain
+        run: |
+          sudo xcode-select -s /Applications/Xcode_16.4.app 2>/dev/null || true
+          xcodebuild -version
+          swift --version
+
+      - name: Package universal app
+        run: VERSION="${GITHUB_REF_NAME#v}" scripts/package.sh
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          ZIP="build/AgentPulse-${VERSION}.zip"
+          if gh release view "$GITHUB_REF_NAME" --json assets --jq '.assets[].name' 2>/dev/null | grep -qx "AgentPulse-${VERSION}.zip"; then
+            # Never replace a published artifact: the Homebrew cask pins its checksum.
+            echo "AgentPulse-${VERSION}.zip is already attached to $GITHUB_REF_NAME; nothing to do."
+            exit 0
+          fi
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" "$ZIP" "$ZIP.sha256"
+          else
+            gh release create "$GITHUB_REF_NAME" "$ZIP" "$ZIP.sha256" \
+              --title "Agent Pulse ${VERSION}" --generate-notes
+          fi
