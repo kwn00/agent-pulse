@@ -175,8 +175,17 @@ struct PulsePanelView: View {
     private var effectiveScrollOffset: CGFloat { layout.debugScrollOffset ?? scrollOffset }
 
     /// 0…1 strength per edge; fades in over the first 28pt of hidden content.
-    private var topFog: Double { overflows ? min(1, max(0, effectiveScrollOffset) / 28) : 0 }
-    private var bottomFog: Double { overflows ? min(1, max(0, listHeight - visibleHeight - effectiveScrollOffset) / 28) : 0 }
+    private var topFog: Double {
+        guard overflows else { return 0 }
+        let hidden: CGFloat = max(0, effectiveScrollOffset)
+        return Double(min(1, hidden / 28))
+    }
+
+    private var bottomFog: Double {
+        guard overflows else { return 0 }
+        let hidden: CGFloat = max(0, listHeight - visibleHeight - effectiveScrollOffset)
+        return Double(min(1, hidden / 28))
+    }
 
     /// A copy of the panel background masked to thin bands at the list's edges, so the fog is
     /// exactly the colour that sits behind it (violet-tinted up top, near-black at the bottom).
